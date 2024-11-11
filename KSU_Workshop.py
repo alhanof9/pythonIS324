@@ -39,7 +39,7 @@ class SignUp_GUI:
 
         #buttons
         self.signUpButton = tkinter.Button(self.bottomFrame, bg= "light blue", height=2, width=20, text= 'Sign up', font=('Times New Roman', 15), command='') #complete the command
-        self.logInButton = tkinter.Button(self.bottomFrame, bg= "light blue", height=2, width=20, text='Login', font=('Times New Roman', 15), command='')  # complete the command
+        self.logInButton = tkinter.Button(self.bottomFrame, bg= "light blue", height=2, width=20, text='Login', font=('Times New Roman', 15), command=self.Log_IN)  # complete the command
 
         #display items
         self.welcomeLabel.pack(fill='both', ipadx=150, ipady=10)
@@ -71,5 +71,45 @@ class SignUp_GUI:
 
         tkinter.mainloop()
 
+    def Log_IN(self):
+        self.main_window = tkinter.Tk()
+        self.main_window.configure()
+        self.main_window.title('KSU Workshop')
+        self.main_window.geometry('370x300')
+
+        #frames
+        self.topFrame = tkinter.Frame(self.main_window)
+        self.idFrame = tkinter.Frame(self.main_window)
+        self.passwordFrame = tkinter.Frame(self.main_window)
+        self.bottomFrame = tkinter.Frame(self.main_window)
+
+
+        self.welcomeLabel = tkinter.Label(self.topFrame, bg= "light blue", text= "Login" , font=('Times New Roman', 20))
+        self.enterInfoLabel = tkinter.Label(self.topFrame, font=('Arial', 10), text= "Enter the following:")
+        self.idLabel = tkinter.Label(self.idFrame, text="          ID", font=('Arial', 10))
+        self.passwordLabel = tkinter.Label(self.passwordFrame, text="Password", font=('Arial', 10))
+
+        self.idEnter = tkinter.Entry(self.idFrame, width=40)
+        self.passwordEnter = tkinter.Entry(self.passwordFrame, width=40)
+
+        self.logInButton = tkinter.Button(self.bottomFrame, bg= "light blue", height=2, width=20, text='Login', font=('Times New Roman', 10), command='')  # complete the command
+
+        self.welcomeLabel.pack(fill='both', ipadx=150, ipady=10)
+        self.enterInfoLabel.pack(fill='x', side='left', pady=10, padx=14)
+
+        self.idLabel.pack(side='left', padx=3)
+        self.idEnter.pack(padx=10)
+        self.passwordLabel.pack(side='left', padx=3)
+        self.passwordEnter.pack(padx=10)
+        self.logInButton.pack()
+
+        self.topFrame.pack()
+        self.idFrame.pack(pady=10)
+        self.passwordFrame.pack(pady=10)
+        self.bottomFrame.pack(pady=10)
+
+
+
+        tkinter.mainloop()
 
 signUp = SignUp_GUI()
