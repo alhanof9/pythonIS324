@@ -134,8 +134,8 @@ class SignUp_GUI:
         email=self.emailEnter.get()
         phoneNumber=self.phoneEnter.get()
 
-        if Pass.isalnum() & len(Pass)==6 & len(idDB)==9 & idDB.isdigit():
-            if  email.endswith('@student.ksu.edu.sa')& len(email)==27 & phoneNumber.startswith('05') & len(phoneNumber)==10:
+        if (Pass.isdigit() or Pass.isalpha() or Pass.isalnum()) and len(Pass)==6 and len(idDB)==9 and idDB.isdigit():
+            if  email.endswith('@student.ksu.edu.sa') and len(email)==27 and phoneNumber.startswith('05') and len(phoneNumber)==10:
                 hashpass=hashlib.sha256(Pass.encode()).hexdigest()
                 idDB=int(idDB)
                 if idDB in IDdec:
@@ -147,12 +147,12 @@ class SignUp_GUI:
                     conn.commit()
                     conn.close()
                     messagebox.showinfo("Welcome","Registration completed successfully ")
-            elif not(email.endswith('@student.ksu.edu.sa')& len(email)==27):
+            elif not(email.endswith('@student.ksu.edu.sa') and len(email)==27):
                 messagebox.showinfo("warning", "Email is wrong (format XXXXXXXX@student.ksu.edu.sa)")
             else:
                 messagebox.showinfo("warning", "phone number is wrong (format 05XXXXXXXX)")
 
-        elif not(Pass.isalnum() & len(Pass)==6):
+        elif not((Pass.isdigit() or Pass.isalpha() or Pass.isalnum()) ) and len(Pass)!=6:
             messagebox.showinfo("warning", "Password must be only 6 (letters or numbers)")
         else:
             messagebox.showinfo("warning", "ID must be only 9 digits")
@@ -171,7 +171,7 @@ class SignUp_GUI:
         Pass = self.passwordEnter.get()
         hashpass = hashlib.sha256(Pass.encode()).hexdigest()
 
-        if Pass.isalnum() & len(Pass)==6 & len(idDB)==9 & idDB.isdigit():
+        if (Pass.isdigit() or Pass.isalpha() or Pass.isalnum()) and len(Pass)==6 and len(idDB)==9 and idDB.isdigit():
             idDB = int(idDB)
             if idDB not in IDdec:
                 messagebox.showinfo("warning","You do not have an account")
@@ -183,7 +183,7 @@ class SignUp_GUI:
                         messagebox.showinfo("Welcome","Welcome Admin")
                     else:
                         messagebox.showinfo("Welcome","Welcome student")
-        elif not(Pass.isalnum() & len(Pass)==6):
+        elif not((Pass.isdigit() and Pass.isalpha() and Pass.isalnum()) ) and  len(Pass)!=6:
             messagebox.showinfo("warning", "Password must be only 6 (letters or numbers)")
         else:
             messagebox.showinfo("warning", "ID must be only 9 digits")
