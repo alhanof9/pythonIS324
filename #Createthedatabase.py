@@ -1,11 +1,15 @@
-#Createthedatabase
 import sqlite3
 
-conn=sqlite3.connect("test.db")
+conn=sqlite3.connect("myDataBase.db")
 
 
 conn.execute('''CREATE TABLE INFO
-(ID INT(9) PRIMARY KEY NOT NULL,
-password CHAR NOT NULL);''')
+(FristName CHAR,
+LastName CHAR,
+ ID INT(9) PRIMARY KEY NOT NULL,
+password CHAR NOT NULL,
+email CHAR,
+phonNumber CHAR  );''')
+
 
 conn.close()

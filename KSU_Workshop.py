@@ -2,6 +2,7 @@ import tkinter
 import tkinter.messagebox
 import sqlite3
 from tkinter import messagebox
+import hashlib
 
 
 class SignUp_GUI:
@@ -118,28 +119,47 @@ class SignUp_GUI:
 
 
     def getInfoFromDBSignUp(self):
-        conn = sqlite3.connect("test.db")
+        conn = sqlite3.connect("myDataBase.db")
         ForTast=conn.execute("SELECT ID ,password FROM INFO")
         IDdec={}
 
         for row in ForTast:
             IDdec[row[0]]=row[1]
 
+
+        Fname=self.FnameEnter.get()
+        lname=self.LnameEnter.get()
         idDB=self.idEnter.get()
-        idDB=int(idDB)
         Pass=self.passwordEnter.get()
-        if idDB in IDdec:
-            messagebox.showinfo("warning","You already have an account")
+        email=self.emailEnter.get()
+        phoneNumber=self.phoneEnter.get()
+
+        if Pass.isalnum() & len(Pass)==6 & len(idDB)==9 & idDB.isdigit():
+            if  email.endswith('@student.ksu.edu.sa')& len(email)==27 & phoneNumber.startswith('05') & len(phoneNumber)==10:
+                hashpass=hashlib.sha256(Pass.encode()).hexdigest()
+                idDB=int(idDB)
+                if idDB in IDdec:
+                    messagebox.showinfo("warning","You already have an account")
 
 
-        if idDB not in IDdec:
-            conn.execute("INSERT INTO INFO(ID,password) VALUES(?,?)",(idDB,Pass))
-            conn.commit()
-            conn.close()
-            messagebox.showinfo("Welcome","Registration completed successfully ")
+                if idDB not in IDdec:
+                    conn.execute("INSERT INTO INFO(FristName,LastName,ID,password,email,phonNumber) VALUES(?,?,?,?,?,?)",(Fname,lname,idDB,hashpass,email,phoneNumber))
+                    conn.commit()
+                    conn.close()
+                    messagebox.showinfo("Welcome","Registration completed successfully ")
+            elif not(email.endswith('@student.ksu.edu.sa')& len(email)==27):
+                messagebox.showinfo("warning", "Email is wrong (format XXXXXXXX@student.ksu.edu.sa)")
+            else:
+                messagebox.showinfo("warning", "phone number is wrong (format 05XXXXXXXX)")
+
+        elif not(Pass.isalnum() & len(Pass)==6):
+            messagebox.showinfo("warning", "Password must be only 6 (letters or numbers)")
+        else:
+            messagebox.showinfo("warning", "ID must be only 9 digits")
+
 
     def getInfoFromDBLogIn(self):
-        conn = sqlite3.connect("test.db")
+        conn = sqlite3.connect("myDataBase.db")
         ForTast = conn.execute("SELECT ID ,password FROM INFO")
         IDdec = {}
 
@@ -147,19 +167,28 @@ class SignUp_GUI:
             IDdec[row[0]]=row[1]
 
         idDB = self.idEnter.get()
-        idDB = int(idDB)
-        Pass = self.passwordEnter.get()
 
-        if idDB not in IDdec:
-            messagebox.showinfo("warning","You do not have an account")
-        else:
-            if IDdec[idDB]!=Pass:
-                messagebox.showinfo("warning","The password is wrong")
+        Pass = self.passwordEnter.get()
+        hashpass = hashlib.sha256(Pass.encode()).hexdigest()
+
+        if Pass.isalnum() & len(Pass)==6 & len(idDB)==9 & idDB.isdigit():
+            idDB = int(idDB)
+            if idDB not in IDdec:
+                messagebox.showinfo("warning","You do not have an account")
             else:
-                if idDB==123456789:
-                    messagebox.showinfo("Welcome","Welcome Admin")
+                if IDdec[idDB]!=hashpass:
+                    messagebox.showinfo("warning","The password is wrong")
                 else:
-                    messagebox.showinfo("Welcome","Welcome student")
+                    if idDB==123456789:
+                        messagebox.showinfo("Welcome","Welcome Admin")
+                    else:
+                        messagebox.showinfo("Welcome","Welcome student")
+        elif not(Pass.isalnum() & len(Pass)==6):
+            messagebox.showinfo("warning", "Password must be only 6 (letters or numbers)")
+        else:
+            messagebox.showinfo("warning", "ID must be only 9 digits")
+
+
 
         conn.close()
 
