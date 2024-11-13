@@ -1,5 +1,9 @@
 import tkinter
 import tkinter.messagebox
+import sqlite3
+from tkinter import messagebox
+
+
 class SignUp_GUI:
 
     def __init__(self):
@@ -38,7 +42,7 @@ class SignUp_GUI:
         self.phoneEnter = tkinter.Entry(self.phoneFrame, width=40)
 
         #buttons
-        self.signUpButton = tkinter.Button(self.bottomFrame, bg= "light blue", height=2, width=20, text= 'Sign up', font=('Times New Roman', 15), command='') #complete the command
+        self.signUpButton = tkinter.Button(self.bottomFrame, bg= "light blue", height=2, width=20, text= 'Sign up', font=('Times New Roman', 15), command=self.getInfoFromDBSignUp) #complete the command
         self.logInButton = tkinter.Button(self.bottomFrame, bg= "light blue", height=2, width=20, text='Login', font=('Times New Roman', 15), command=self.Log_IN)  # complete the command
 
         #display items
@@ -86,13 +90,13 @@ class SignUp_GUI:
 
         self.welcomeLabel = tkinter.Label(self.topFrame, bg= "light blue", text= "Login" , font=('Times New Roman', 20))
         self.enterInfoLabel = tkinter.Label(self.topFrame, font=('Arial', 10), text= "Enter the following:")
-        self.idLabel = tkinter.Label(self.idFrame, text="          ID", font=('Arial', 10))
+        self.idLabel = tkinter.Label(self.idFrame, text="  User ID  ", font=('Arial', 10))
         self.passwordLabel = tkinter.Label(self.passwordFrame, text="Password", font=('Arial', 10))
 
         self.idEnter = tkinter.Entry(self.idFrame, width=40)
         self.passwordEnter = tkinter.Entry(self.passwordFrame, width=40)
 
-        self.logInButton = tkinter.Button(self.bottomFrame, bg= "light blue", height=2, width=20, text='Login', font=('Times New Roman', 10), command='')  # complete the command
+        self.logInButton = tkinter.Button(self.bottomFrame, bg= "light blue", height=2, width=20, text='Login', font=('Times New Roman', 15), command=self.getInfoFromDBLogIn)  # complete the command
 
         self.welcomeLabel.pack(fill='both', ipadx=150, ipady=10)
         self.enterInfoLabel.pack(fill='x', side='left', pady=10, padx=14)
@@ -111,5 +115,63 @@ class SignUp_GUI:
 
 
         tkinter.mainloop()
+
+
+    def getInfoFromDBSignUp(self):
+        conn = sqlite3.connect("test.db")
+        ForTast=conn.execute("SELECT ID ,password FROM INFO")
+        IDdec={}
+
+        for row in ForTast:
+            IDdec[row[0]]=row[1]
+
+        idDB=self.idEnter.get()
+        idDB=int(idDB)
+        Pass=self.passwordEnter.get()
+        if idDB in IDdec:
+            messagebox.showinfo("warning","You already have an account")
+
+
+        if idDB not in IDdec:
+            conn.execute("INSERT INTO INFO(ID,password) VALUES(?,?)",(idDB,Pass))
+            conn.commit()
+            conn.close()
+            messagebox.showinfo("Welcome","Registration completed successfully ")
+
+    def getInfoFromDBLogIn(self):
+        conn = sqlite3.connect("test.db")
+        ForTast = conn.execute("SELECT ID ,password FROM INFO")
+        IDdec = {}
+
+        for row in ForTast:
+            IDdec[row[0]]=row[1]
+
+        idDB = self.idEnter.get()
+        idDB = int(idDB)
+        Pass = self.passwordEnter.get()
+
+        if idDB not in IDdec:
+            messagebox.showinfo("warning","You do not have an account")
+        else:
+            if IDdec[idDB]!=Pass:
+                messagebox.showinfo("warning","The password is wrong")
+            else:
+                if idDB==123456789:
+                    messagebox.showinfo("Welcome","Welcome Admin")
+                else:
+                    messagebox.showinfo("Welcome","Welcome student")
+
+        conn.close()
+
+
+
+
+
+
+
+
+
+
+
 
 signUp = SignUp_GUI()
