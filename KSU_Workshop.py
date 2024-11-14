@@ -135,16 +135,16 @@ class SignUp_GUI:
             IDdec[row[0]]=row[1]
 
         #retrieve info
-        Fname=self.FnameEnter.get()
-        lname=self.LnameEnter.get()
-        idDB=self.idEnter.get()
-        Pass=self.passwordEnter.get()
-        email=self.emailEnter.get()
-        phoneNumber=self.phoneEnter.get()
+        Fname=self.FnameEnter.get().strip()
+        lname=self.LnameEnter.get().strip()
+        idDB=self.idEnter.get().strip()
+        Pass=self.passwordEnter.get().strip()
+        email=self.emailEnter.get().strip()
+        phoneNumber=self.phoneEnter.get().strip()
 
         #check the validation of entries
-        if Fname or lname or idDB or Pass or email or phoneNumber == '':
-            messagebox.showinfo("warning","You have to enter all the information")
+        if not Fname or not lname or not idDB or not Pass or not email or not phoneNumber:
+            messagebox.showwarning("warning","Please enter all the information")
           
         elif (Pass.isdigit() or Pass.isalpha() or Pass.isalnum()) and len(Pass)==6 and len(idDB)==9 and idDB.isdigit():
             
@@ -188,8 +188,8 @@ class SignUp_GUI:
         hashpass = hashlib.sha256(Pass.encode()).hexdigest()
 
         #check the validation of entries
-        if idDB or Pass == '':
-            messagebox.showinfo("warning","You have to enter all the information")
+        if not idDB or not Pass:
+            messagebox.showwarning("warning","Please enter all the information")
           
         elif (Pass.isdigit() or Pass.isalpha() or Pass.isalnum()) and len(Pass)==6 and len(idDB)==9 and idDB.isdigit():
             idDB = int(idDB)
