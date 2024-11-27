@@ -214,13 +214,4 @@ class SignUp_GUI:
 
 
 
-
-
-
-
-
-
-
-
-
 signUp = SignUp_GUI()
