@@ -1,12 +1,19 @@
 import sqlite3
 import tkinter as tk
 from tkinter import ttk, messagebox
+import logging
+
+uid1 = ""
+
+
 
 class StudentWindow:
-    def __init__(self):
+    def __init__(self,userID):
         self.root = tk.Tk()
+        self.uid1=userID
         self.root.title("Student Window")
         self.root.geometry("800x600")
+        logging.basicConfig(filename="Transactions.log",filemode='a',format="%(asctime)s - %(message)s",level=logging.INFO)
 
         # Tabs for Book a workshop and View my workshops
         self.notebook = ttk.Notebook(self.root)
@@ -23,7 +30,9 @@ class StudentWindow:
         
     # Return to signup window
     def logout(self):
+        self.root.destroy()
         from SignUp_GUI import SignUp_GUI
+
 
     def setup_book_tab(self):
         # Workshop list
@@ -64,6 +73,7 @@ class StudentWindow:
         # Show Button
         self.show_button = tk.Button(button_frame, text="Show", command=self.show_my_workshops)
         self.show_button.pack(side="left", padx=10)
+
         # Logout Button
         self.logout_button = tk.Button(button_frame, text="Logout", command=self.logout)
         self.logout_button.pack(side="left", padx=10)
@@ -73,15 +83,17 @@ class StudentWindow:
      #workshop data from the database
     def load_workshops(self):
         conn = sqlite3.connect("test.db")
-       # the database is empty so just for testing I am going to fill it ##
+       ## the database is empty so just for testing I am going to fill it ##
 
         # conn.execute('''INSERT INTO workshop (ID,Name,Location,Date,Time,Capacity)
         #             VALUES(1,'Python','Riyadh-Aziziyah-building 5','2-1-2025','10:00AM',2)''')
-        
+        #
         # conn.execute('''INSERT INTO workshop (ID,Name,Location,Date,Time,Capacity)
         #                   VALUES(2,'Java','Jeddah-AlBalad-building 6','3-1-2025','11:00AM',4)''')
         # conn.execute('''INSERT INTO workshop (ID,Name,Location,Date,Time,Capacity)
         #                          VALUES(3,'Javascript','Riyadh-AL Olaya-building 1','10-1-2025','8:00AM',5)''')
+        # conn.execute('''INSERT INTO workshop (ID,Name,Location,Date,Time,Capacity)
+        #                                VALUES(4,'C++','Riyadh-AL Olaya-building 1','9-1-2025','8:00AM',5)''')
         # conn.commit()
         # conn.close()
 
@@ -95,35 +107,46 @@ class StudentWindow:
         conn.close()
 
     def book_workshop(self):
-        booking_number=0
-        conn = sqlite3.connect("test.db")
-        capacity = conn.execute("SELECT Capacity from workshop")
-        workshop = conn.execute("SELECT ID,Name,Location,Date,Time,Capacity from workshop")
-        id = conn.execute("SELECT ID from workshop")
+        try:
+            conn = sqlite3.connect('test.db')
+            c = conn.cursor()
+            # workshop id & Student_ID
+            selectedworkshop = self.workshop_list.selection()[0]
+            reco=self.workshop_list.item(selectedworkshop)['values']
+            workshop_ID = str(self.workshop_list.item(selectedworkshop)['values'][0])
 
-        if self.check_already_booked(workshop,id):
-            messagebox.showerror("Error", "You have already booked this workshop.")
-        else:
-         messagebox.showinfo("Success", "Workshop booked successfully!")
+            # insert and check if id is exist
 
-        conn.close()
-    def check_already_booked(self, workshop,id):
-        conn = sqlite3.connect("test.db")
-        view_id = conn.execute("SELECT ID from view")
-        ID = {}
-        r=workshop.fetchone()
-        for row in view_id:
-            ID[row[0]] = row[1]
+            id = c.execute(
+                f"SELECT  booked.workshopID,Name,Location,Date,Time from Student_INFO,workshop,booked where Student_INFO.ID=booked.StuID and workshop.ID=booked.workshopID and booked.StuID= {self.uid1} and booked.workshopID={workshop_ID}")
+            if len(id.fetchall()) == 0:
+                id = c.execute(f"SELECT Capacity from  workshop where ID = {workshop_ID} and Capacity != 0")
+                if len(id.fetchall()) == 0:
+                    messagebox.showinfo("Book faild", "No more Booking Available")
+                else:
+                    sql = """INSERT INTO booked VALUES('{}','{}')
+                    """.format( self.uid1, workshop_ID)
+                    c.execute(sql)
+                    c.execute(f"UPDATE workshop set Capacity = Capacity-1 where  ID={workshop_ID}")
+                    conn.commit()
+                    messagebox.showinfo("Booking Succeed", "Your booking has been registered")
+                    self.log_transaction(reco,"Succeed")
 
-        idWS = id
-        if idWS in ID:
-            messagebox.showinfo("warning", "You already booked this workshop ")
-        if idWS not in ID:
-            return
+
+            else:
+                messagebox.showinfo("Booking Fail", "this event already booked")
+                self.log_transaction(reco, "Fail")
+                conn.close()
+        except sqlite3.Error:
+            messagebox.showinfo("database error", "DataBase ERROR")
+            self.log_transaction(reco,"Fail")
+
 
     def show_my_workshops(self):
+        for item in self.my_workshop_list.get_children():
+            self.my_workshop_list.delete(item)
         conn = sqlite3.connect("test.db")
-        workshop = conn.execute("SELECT ID,Name,Location,Date,Time from workshop")
+        workshop = conn.execute(f"SELECT booked.workshopID,Name,Location,Date,Time from workshop,Student_INFO,booked where Student_INFO.ID=booked.StuID and workshop.ID=booked.workshopID and booked.StuID= {self.uid1}  ORDER BY Date ASC")
         count = 0
         for row in workshop:
             self.my_workshop_list.insert(parent='', index=count, text='',
@@ -132,13 +155,18 @@ class StudentWindow:
 
         conn.close()
 
+    def log_transaction(self,rec,status):
+        log_message = f"User ID: {self.uid1}, Workshop Name: {rec[1]}, Location: {rec[2]}, " \
+                      f"Reservation Date: {rec[3]},Reservation Time:{rec[4]}, Status: {status}"
+
+        logging.info(log_message)
 
 
 
 
 
 
-stu=StudentWindow()
+
 
 
 
