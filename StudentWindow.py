@@ -31,7 +31,7 @@ class StudentWindow:
     # Return to signup window
     def logout(self):
         self.root.destroy()
-        from SignUp_GUI import SignUp_GUI
+        from KSU_Workshop import SignUp_GUI
 
 
     def setup_book_tab(self):
@@ -85,18 +85,6 @@ class StudentWindow:
         conn = sqlite3.connect("test.db")
        ## the database is empty so just for testing I am going to fill it ##
 
-        # conn.execute('''INSERT INTO workshop (ID,Name,Location,Date,Time,Capacity)
-        #             VALUES(1,'Python','Riyadh-Aziziyah-building 5','2-1-2025','10:00AM',2)''')
-        #
-        # conn.execute('''INSERT INTO workshop (ID,Name,Location,Date,Time,Capacity)
-        #                   VALUES(2,'Java','Jeddah-AlBalad-building 6','3-1-2025','11:00AM',4)''')
-        # conn.execute('''INSERT INTO workshop (ID,Name,Location,Date,Time,Capacity)
-        #                          VALUES(3,'Javascript','Riyadh-AL Olaya-building 1','10-1-2025','8:00AM',5)''')
-        # conn.execute('''INSERT INTO workshop (ID,Name,Location,Date,Time,Capacity)
-        #                                VALUES(4,'C++','Riyadh-AL Olaya-building 1','9-1-2025','8:00AM',5)''')
-        # conn.commit()
-        # conn.close()
-
         # The actual code for the method
         conn = sqlite3.connect("test.db")
         select = conn.execute("SELECT ID,Name,Location,Date,Time from workshop")
@@ -127,7 +115,7 @@ class StudentWindow:
                     sql = """INSERT INTO booked VALUES('{}','{}')
                     """.format( self.uid1, workshop_ID)
                     c.execute(sql)
-                    c.execute(f"UPDATE workshop set Capacity = Capacity-1 where  ID={workshop_ID}")
+                    c.execute(f"UPDATE workshop set Capacity = Capacity-1, numberOfBook=numberOfBook+1 where  ID={workshop_ID}")
                     conn.commit()
                     messagebox.showinfo("Booking Succeed", "Your booking has been registered")
                     self.log_transaction(reco,"Succeed")

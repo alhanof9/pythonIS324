@@ -3,13 +3,11 @@ import tkinter.messagebox
 import sqlite3
 from tkinter import messagebox
 import hashlib
-from Student_window import StudentWindow
-
+from  StudentWindow import StudentWindow
 
 class SignUp_GUI:
 
     def __init__(self):
-
         # gui format
         self.signUp_window = tkinter.Tk()
         self.signUp_window.configure()
@@ -131,6 +129,7 @@ class SignUp_GUI:
         tkinter.mainloop()
 
     def getInfoFromDBSignUp(self):
+        
 
         # connect to database
         conn = sqlite3.connect("test.db")
@@ -194,7 +193,7 @@ class SignUp_GUI:
 
         # encrypt the password
         hashpass = hashlib.sha256(Pass.encode()).hexdigest()
-
+        id=int(idDB);
         # check the validation of entries
         if not idDB or not Pass:
             messagebox.showwarning("warning", "Please enter all the information")
