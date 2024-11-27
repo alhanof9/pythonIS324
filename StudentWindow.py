@@ -50,12 +50,14 @@ class StudentWindow:
         button_frame = tk.Frame(self.book_tab)
         button_frame.pack(pady=10)
 
+        
+
         # Book Button
-        self.book_button = tk.Button(button_frame, text="Book", command=self.book_workshop)
+        self.book_button = tk.Button(button_frame,bg="light blue",height=1, width=25, text="Book",font=('Times New Roman', 15), command=self.book_workshop)
         self.book_button.pack(side="left", padx=10)
 
         # Logout Button
-        self.logout_button = tk.Button(button_frame, text="Logout", command=self.logout)
+        self.logout_button = tk.Button(button_frame, bg="light blue",height=1, width=25,text="Logout",font=('Times New Roman', 15), command=self.logout)
         self.logout_button.pack(side="left", padx=10)
         
     def setup_view_tab(self):
@@ -150,7 +152,7 @@ class StudentWindow:
         logging.info(log_message)
 
 
-
+StudentWindow1=StudentWindow("444200934")
 
 
 
