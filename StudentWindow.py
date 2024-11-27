@@ -73,11 +73,11 @@ class StudentWindow:
      #workshop data from the database
     def load_workshops(self):
         conn = sqlite3.connect("test.db")
-       ## the database is empty so just for testing I am going to fill it ##
+       # the database is empty so just for testing I am going to fill it ##
 
         # conn.execute('''INSERT INTO workshop (ID,Name,Location,Date,Time,Capacity)
         #             VALUES(1,'Python','Riyadh-Aziziyah-building 5','2-1-2025','10:00AM',2)''')
-        #
+        
         # conn.execute('''INSERT INTO workshop (ID,Name,Location,Date,Time,Capacity)
         #                   VALUES(2,'Java','Jeddah-AlBalad-building 6','3-1-2025','11:00AM',4)''')
         # conn.execute('''INSERT INTO workshop (ID,Name,Location,Date,Time,Capacity)
