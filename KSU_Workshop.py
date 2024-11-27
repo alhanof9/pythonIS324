@@ -44,9 +44,9 @@ class SignUp_GUI:
         self.phoneEnter = tkinter.Entry(self.phoneFrame, width=40)
 
         # buttons
-        self.signUpButton = tkinter.Button(self.bottomFrame, bg="light blue", height=2, width=20, text='Sign up',
+        self.signUpButton = tkinter.Button(self.bottomFrame, bg="light blue", height=1, width=25, text='Sign up',
                                            font=('Times New Roman', 15), command=self.getInfoFromDBSignUp)
-        self.logInButton = tkinter.Button(self.bottomFrame, bg="light blue", height=2, width=20, text='Login',
+        self.logInButton = tkinter.Button(self.bottomFrame, bg="light blue", height=1, width=25, text='Login',
                                           font=('Times New Roman', 15), command=self.Log_IN)
 
         # display items
@@ -107,7 +107,7 @@ class SignUp_GUI:
         self.passwordEnter = tkinter.Entry(self.passwordFrame, width=40)
 
         # button
-        self.logInButton = tkinter.Button(self.bottomFrame, bg="light blue", height=2, width=20, text='Login',
+        self.logInButton = tkinter.Button(self.bottomFrame, bg="light blue", height=1, width=25, text='Login',
                                           font=('Times New Roman', 15),
                                           command=self.getInfoFromDBLogIn)  # complete the command
 
@@ -133,7 +133,7 @@ class SignUp_GUI:
 
         # connect to database
         conn = sqlite3.connect("test.db")
-        ForTast = conn.execute("SELECT ID ,password FROM Student_INFO")
+        ForTast = conn.execute("SELECT ID ,password FROM user_info")
         IDdec = {}
         for row in ForTast:
             IDdec[row[0]] = row[1]
@@ -162,7 +162,7 @@ class SignUp_GUI:
                     messagebox.showinfo("warning", "You already have an account")
                 if idDB not in IDdec:
                     conn.execute(
-                        "INSERT INTO Student_INFO(FristName,LastName,ID,password,email,phonNumber) VALUES(?,?,?,?,?,?)",
+                        "INSERT INTO user_info(FristName,LastName,ID,password,email,phonNumber) VALUES(?,?,?,?,?,?)",
                         (Fname, lname, idDB, hashpass, email, phoneNumber))
                     conn.commit()
                     conn.close()
@@ -182,7 +182,7 @@ class SignUp_GUI:
 
         # connect to database
         conn = sqlite3.connect("test.db")
-        ForTast = conn.execute("SELECT ID ,password FROM Student_INFO")
+        ForTast = conn.execute("SELECT ID ,password FROM user_info")
         IDdec = {}
         for row in ForTast:
             IDdec[row[0]] = row[1]
@@ -209,6 +209,8 @@ class SignUp_GUI:
                 else:
                     if idDB == 123456789:
                         messagebox.showinfo("Welcome", "Welcome Admin")
+                        self.logIn_window.destroy()
+                        from admin import admin
                     else:
                         messagebox.showinfo("Welcome", "Welcome student")
                         self.logIn_window.destroy()

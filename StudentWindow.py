@@ -106,7 +106,7 @@ class StudentWindow:
             # insert and check if id is exist
 
             id = c.execute(
-                f"SELECT  booked.workshopID,Name,Location,Date,Time from Student_INFO,workshop,booked where Student_INFO.ID=booked.StuID and workshop.ID=booked.workshopID and booked.StuID= {self.uid1} and booked.workshopID={workshop_ID}")
+                f"SELECT  booked.workshopID,Name,Location,Date,Time from user_info,workshop,booked where user_info.ID=booked.StuID and workshop.ID=booked.workshopID and booked.StuID= {self.uid1} and booked.workshopID={workshop_ID}")
             if len(id.fetchall()) == 0:
                 id = c.execute(f"SELECT Capacity from  workshop where ID = {workshop_ID} and Capacity != 0")
                 if len(id.fetchall()) == 0:
@@ -134,7 +134,7 @@ class StudentWindow:
         for item in self.my_workshop_list.get_children():
             self.my_workshop_list.delete(item)
         conn = sqlite3.connect("test.db")
-        workshop = conn.execute(f"SELECT booked.workshopID,Name,Location,Date,Time from workshop,Student_INFO,booked where Student_INFO.ID=booked.StuID and workshop.ID=booked.workshopID and booked.StuID= {self.uid1}  ORDER BY Date ASC")
+        workshop = conn.execute(f"SELECT booked.workshopID,Name,Location,Date,Time from workshop,user_info,booked where user_info.ID=booked.StuID and workshop.ID=booked.workshopID and booked.StuID= {self.uid1}  ORDER BY Date ASC")
         count = 0
         for row in workshop:
             self.my_workshop_list.insert(parent='', index=count, text='',

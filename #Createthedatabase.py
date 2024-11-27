@@ -1,7 +1,10 @@
 # #Createthedatabase
 import sqlite3
+import hashlib
 
 conn=sqlite3.connect("test.db")
+
+
 
 
 conn.execute('''CREATE TABLE IF NOT EXISTS workshop
@@ -22,13 +25,23 @@ PRIMARY KEY(StuID,workshopID),
 FOREIGN KEY(StuID) REFERENCES student(StuID) ,
 FOREIGN KEY(workshopID) REFERENCES workshop(ID) );''')
 
-conn.execute('''CREATE TABLE IF NOT EXISTS Student_INFO
+conn.execute('''CREATE TABLE IF NOT EXISTS user_info
 (FristName CHAR,
 LastName CHAR,
  ID INT(9) PRIMARY KEY NOT NULL,
 password CHAR NOT NULL,
 email CHAR,
 phonNumber CHAR  );''')
+
+hashpass = hashlib.sha256("areej1".encode()).hexdigest()
+
+##admin
+# conn.execute("INSERT INTO  user_info(FristName,LastName,ID,password,email,phonNumber) VALUES(?,?,?,?,?,?)",
+#                         ("areej", "AbdulJabbar", 123456789, hashpass, "areej111@gmail.com", "0555555555"))
+
+
+
+             
 
 # conn.execute('''INSERT INTO workshop (ID, Name, Location, Date, Time, Capacity,numberOfBook)
 #                  VALUES (1, 'Python', 'Riyadh-Aziziyah-building 5', '2025-01-02', '10:00AM', 2,0)''')
