@@ -54,6 +54,12 @@ hashpass = hashlib.sha256("areej1".encode()).hexdigest()
 
 # conn.execute('''INSERT INTO workshop (ID, Name, Location, Date, Time, Capacity,numberOfBook)
 #                  VALUES (4, 'C++', 'Riyadh-AL Olaya-building 1', '2025-01-09', '8:00AM', 5,0)''')
+# conn.execute('''INSERT INTO workshop (ID, Name, Location, Date, Time, Capacity,numberOfBook)
+#                  VALUES (5, 'C', 'Riyadh-AL Olaya-building 1', '2024-11-28', '8:00AM', 5,0)''')
+#
+# conn.execute('''INSERT INTO workshop (ID, Name, Location, Date, Time, Capacity,numberOfBook)
+#                  VALUES (6, 'HTML', 'Riyadh-AL Olaya-building 1', '2024-11-27', '8:00AM', 5,0)''')
+
 
 conn.commit()
 conn.close()
