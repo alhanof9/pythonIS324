@@ -82,12 +82,13 @@ class StudentWindow:
 
     # workshop data from the database
     def load_workshops(self):
+        current_date = datetime.datetime.now().strftime("%Y-%m-%d")
         conn = sqlite3.connect("test.db")
         ## the database is empty so just for testing I am going to fill it ##
 
         # The actual code for the method
         conn = sqlite3.connect("test.db")
-        select = conn.execute("SELECT ID,Name,Location,Date,Time from workshop")
+        select = conn.execute(f"SELECT ID,Name,Location,Date,Time from workshop where Date>='{current_date}' ")
         count = 0
         for row in select:
             self.workshop_list.insert(parent='', index=count, text='', values=(row[0], row[1], row[2], row[3], row[4]))
@@ -151,8 +152,8 @@ class StudentWindow:
 
         logging.info(log_message)
 
-StudentWindow1=StudentWindow("444200934")
-
+# StudentWindow1=StudentWindow("444200934")
+StudentWindow1=StudentWindow("444200876")
 
 
 
