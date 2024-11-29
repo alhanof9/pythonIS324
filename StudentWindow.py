@@ -11,7 +11,7 @@ class StudentWindow:
         self.root = tk.Tk()
         self.uid1 = userID
         self.root.title("Student Window")
-        self.root.geometry("800x600")
+        self.root.geometry("1050x350")
         logging.basicConfig(filename="Transactions.log", filemode='a', format="%(asctime)s - %(message)s",
                             level=logging.INFO)
 
@@ -31,7 +31,7 @@ class StudentWindow:
     # Return to signup window
     def logout(self):
         self.root.destroy()
-        from SignUp_GUI import SignUp_GUI
+        from KSU_Workshop import KSU_Workshop
 
     def setup_book_tab(self):
         # Workshop list
@@ -50,13 +50,13 @@ class StudentWindow:
         button_frame.pack(pady=10)
 
         # Book Button
-        self.book_button = tk.Button(button_frame, bg="light blue", height=1, width=25, text="Book",
-                                     font=('Times New Roman', 15), command=self.book_workshop)
+        self.book_button = tk.Button(button_frame, bg="light blue", height=1, width=15, text="Book",
+                                     font=('Times New Roman', 13), command=self.book_workshop)
         self.book_button.pack(side="left", padx=10)
 
         # Logout Button
-        self.logout_button = tk.Button(button_frame, bg="light blue", height=1, width=25, text="Logout",
-                                       font=('Times New Roman', 15), command=self.logout)
+        self.logout_button = tk.Button(button_frame, bg="light blue", height=1, width=15, text="Logout",
+                                       font=('Times New Roman', 13), command=self.logout)
         self.logout_button.pack(side="left", padx=10)
 
     def setup_view_tab(self):
@@ -73,11 +73,11 @@ class StudentWindow:
         button_frame.pack(pady=10)
 
         # Show Button
-        self.show_button = tk.Button(button_frame, text="Show", command=self.show_my_workshops)
+        self.show_button = tk.Button(button_frame, text="Show", bg="light blue", height=1, width=15, font=('Times New Roman', 13), command=self.show_my_workshops)
         self.show_button.pack(side="left", padx=10)
 
         # Logout Button
-        self.logout_button = tk.Button(button_frame, text="Logout", command=self.logout)
+        self.logout_button = tk.Button(button_frame, text="Logout", bg="light blue", height=1, width=15, font=('Times New Roman', 13), command=self.logout)
         self.logout_button.pack(side="left", padx=10)
 
     # workshop data from the database

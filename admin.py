@@ -14,7 +14,7 @@ class admin:
         self.main_window = root
         self.main_window.configure()
         self.main_window.title('KSU Workshop')
-        self.main_window.geometry('500x600')
+        self.main_window.geometry('370x470')
 
         # Frames
         self.topFrame = tkinter.Frame(self.main_window)
@@ -35,11 +35,11 @@ class admin:
         self.timeLabel = tkinter.Label(self.timeFrame, text="Time", font=('Arial', 10), width=15)
 
         # Entry fields
-        self.workshopnameEnter = tkinter.Entry(self.workshopnameFrame, width=25)
-        self.locationEnter = tkinter.Entry(self.locationFrame, width=25)
-        self.capacityEnter = tkinter.Entry(self.capacityFrame, width=25)
-        self.dateEnter = tkinter.Entry(self.dateFrame, width=25)
-        self.timeEnter = tkinter.Entry(self.timeFrame, width=25)
+        self.workshopnameEnter = tkinter.Entry(self.workshopnameFrame, width=30)
+        self.locationEnter = tkinter.Entry(self.locationFrame, width=30)
+        self.capacityEnter = tkinter.Entry(self.capacityFrame, width=30)
+        self.dateEnter = tkinter.Entry(self.dateFrame, width=30)
+        self.timeEnter = tkinter.Entry(self.timeFrame, width=30)
 
         # Buttons
         self.CreateButton = tkinter.Button(self.bottomFrame, bg="light blue", height=1, width=25, text='Create',font=('Times New Roman', 12), command=self.Create)

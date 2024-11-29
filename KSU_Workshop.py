@@ -3,7 +3,7 @@ import tkinter.messagebox
 import sqlite3
 from tkinter import messagebox
 import hashlib
-from  StudentWindow import StudentWindow
+#from  StudentWindow import StudentWindow
 
 class SignUp_GUI:
 
@@ -12,7 +12,7 @@ class SignUp_GUI:
         self.signUp_window = tkinter.Tk()
         self.signUp_window.configure()
         self.signUp_window.title('KSU Workshop')
-        self.signUp_window.geometry('370x490')
+        self.signUp_window.geometry('370x470')
 
         # frames
         self.topFrame = tkinter.Frame(self.signUp_window)
@@ -44,10 +44,10 @@ class SignUp_GUI:
         self.phoneEnter = tkinter.Entry(self.phoneFrame, width=40)
 
         # buttons
-        self.signUpButton = tkinter.Button(self.bottomFrame, bg="light blue", height=1, width=25, text='Sign up',
-                                           font=('Times New Roman', 15), command=self.getInfoFromDBSignUp)
-        self.logInButton = tkinter.Button(self.bottomFrame, bg="light blue", height=1, width=25, text='Login',
-                                          font=('Times New Roman', 15), command=self.Log_IN)
+        self.signUpButton = tkinter.Button(self.bottomFrame, bg="light blue", height=1, width=20, text='Submit',
+                                           font=('Times New Roman', 17), command=self.getInfoFromDBSignUp)
+        self.logInButton = tkinter.Button(self.bottomFrame, bg="light blue", height=1, width=20, text='Login',
+                                          font=('Times New Roman', 17), command=self.Log_IN)
 
         # display items
         self.welcomeLabel.pack(fill='both', ipadx=150, ipady=10)
@@ -88,7 +88,7 @@ class SignUp_GUI:
         self.logIn_window = tkinter.Tk()
         self.logIn_window.configure()
         self.logIn_window.title('KSU Workshop')
-        self.logIn_window.geometry('370x300')
+        self.logIn_window.geometry('370x270')
 
         # frames
         self.topFrame = tkinter.Frame(self.logIn_window)
@@ -107,9 +107,9 @@ class SignUp_GUI:
         self.passwordEnter = tkinter.Entry(self.passwordFrame, width=40)
 
         # button
-        self.logInButton = tkinter.Button(self.bottomFrame, bg="light blue", height=1, width=25, text='Login',
-                                          font=('Times New Roman', 15),
-                                          command=self.getInfoFromDBLogIn)  # complete the command
+        self.logInButton = tkinter.Button(self.bottomFrame, bg="light blue", height=1, width=20, text='Login',
+                                          font=('Times New Roman', 17),
+                                          command=self.getInfoFromDBLogIn)
 
         # display items
         self.welcomeLabel.pack(fill='both', ipadx=150, ipady=10)
@@ -150,7 +150,7 @@ class SignUp_GUI:
         if not Fname or not lname or not idDB or not Pass or not email or not phoneNumber:
             messagebox.showwarning("warning", "Please enter all the information")
 
-        elif (Pass.isdigit() or Pass.isalpha() or Pass.isalnum()) and len(Pass) == 6 and len(
+        elif (Pass.isdigit() or Pass.isalpha() or Pass.isalnum()) and len(Pass) >= 6 and len(
                 idDB) == 9 and idDB.isdigit():
 
             if email.endswith('@student.ksu.edu.sa') and len(email) == 27 and phoneNumber.startswith('05') and len(
@@ -173,8 +173,8 @@ class SignUp_GUI:
             else:
                 messagebox.showinfo("warning", "phone number is wrong (format 05XXXXXXXX)")
 
-        elif not ((Pass.isdigit() or Pass.isalpha() or Pass.isalnum())) and len(Pass) != 6:
-            messagebox.showinfo("warning", "Password must be only 6 (letters or numbers)")
+        elif not ((Pass.isdigit() or Pass.isalpha() or Pass.isalnum())) or len(Pass) < 6:
+            messagebox.showinfo("warning", "Password must be at least 6 (letters or numbers)")
         else:
             messagebox.showinfo("warning", "ID must be only 9 digits")
 
@@ -193,12 +193,13 @@ class SignUp_GUI:
 
         # encrypt the password
         hashpass = hashlib.sha256(Pass.encode()).hexdigest()
-        id=int(idDB);
+        id=int(idDB)
+
         # check the validation of entries
         if not idDB or not Pass:
             messagebox.showwarning("warning", "Please enter all the information")
 
-        elif (Pass.isdigit() or Pass.isalpha() or Pass.isalnum()) and len(Pass) == 6 and len(
+        elif (Pass.isdigit() or Pass.isalpha() or Pass.isalnum()) and len(Pass) >= 6 and len(
                 idDB) == 9 and idDB.isdigit():
             idDB = int(idDB)
             if idDB not in IDdec:
@@ -214,10 +215,11 @@ class SignUp_GUI:
                     else:
                         messagebox.showinfo("Welcome", "Welcome student")
                         self.logIn_window.destroy()
+                        from  StudentWindow import StudentWindow
                         StudentWindow(idDB)
 
-        elif not ((Pass.isdigit() and Pass.isalpha() and Pass.isalnum())) and len(Pass) != 6:
-            messagebox.showinfo("warning", "Password must be only 6 (letters or numbers)")
+        elif not ((Pass.isdigit() and Pass.isalpha() and Pass.isalnum())) or len(Pass) < 6:
+            messagebox.showinfo("warning", "Password must be at least 6 (letters or numbers)")
         else:
             messagebox.showinfo("warning", "ID must be only 9 digits")
 
