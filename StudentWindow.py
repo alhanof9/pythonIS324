@@ -31,7 +31,7 @@ class StudentWindow:
     # Return to signup window
     def logout(self):
         self.root.destroy()
-        from KSU_Workshop import KSU_Workshop
+        from KSU_Workshop import SignUp_GUI
 
     def setup_book_tab(self):
         # Workshop list
@@ -83,11 +83,10 @@ class StudentWindow:
     # workshop data from the database
     def load_workshops(self):
         current_date = datetime.datetime.now().strftime("%Y-%m-%d")
-        conn = sqlite3.connect("test.db")
         ## the database is empty so just for testing I am going to fill it ##
 
         # The actual code for the method
-        conn = sqlite3.connect("test.db")
+        conn = sqlite3.connect("KSU.db")
         select = conn.execute(f"SELECT ID,Name,Location,Date,Time from workshop where Date>='{current_date}' ")
         count = 0
         for row in select:
@@ -97,7 +96,7 @@ class StudentWindow:
 
     def book_workshop(self):
         try:
-            conn = sqlite3.connect('test.db')
+            conn = sqlite3.connect('KSU.db')
             c = conn.cursor()
             # workshop id & Student_ID
             selectedworkshop = self.workshop_list.selection()[0]
@@ -135,7 +134,7 @@ class StudentWindow:
         current_date=datetime.datetime.now().strftime("%Y-%m-%d")
         for item in self.my_workshop_list.get_children():
             self.my_workshop_list.delete(item)
-        conn = sqlite3.connect("test.db")
+        conn = sqlite3.connect("KSU.db")
         workshop = conn.execute(
             f"SELECT booked.workshopID,Name,Location,Date,Time from workshop,user_info,booked where user_info.ID=booked.StuID and workshop.ID=booked.workshopID and booked.StuID= {self.uid1} and Date>='{current_date}' ORDER BY Date ASC")
         count = 0
@@ -152,8 +151,7 @@ class StudentWindow:
 
         logging.info(log_message)
 
-# StudentWindow1=StudentWindow("444200934")
-StudentWindow1=StudentWindow("444200876")
+StudentWindow1=StudentWindow("444200000")
 
 
 

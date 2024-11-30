@@ -2,9 +2,7 @@
 import sqlite3
 import hashlib
 
-conn=sqlite3.connect("test.db")
-
-
+conn = sqlite3.connect("KSU.db")
 
 
 conn.execute('''CREATE TABLE IF NOT EXISTS workshop
@@ -15,7 +13,6 @@ Date DATE,
 Time CHAR,
 Capacity INT,
 numberOfBook INT);''')
-
 
 conn.execute('''CREATE TABLE IF NOT EXISTS booked
 (
@@ -39,9 +36,6 @@ hashpass = hashlib.sha256("areej1".encode()).hexdigest()
 # conn.execute("INSERT INTO  user_info(FristName,LastName,ID,password,email,phonNumber) VALUES(?,?,?,?,?,?)",
 #                         ("areej", "AbdulJabbar", 123456789, hashpass, "areej111@gmail.com", "0555555555"))
 
-
-
-             
 
 # conn.execute('''INSERT INTO workshop (ID, Name, Location, Date, Time, Capacity,numberOfBook)
 #                  VALUES (1, 'Python', 'Riyadh-Aziziyah-building 5', '2025-01-02', '10:00AM', 2,0)''')

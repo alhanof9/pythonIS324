@@ -3,7 +3,9 @@ import tkinter.messagebox
 import sqlite3
 from tkinter import messagebox
 import hashlib
-#from  StudentWindow import StudentWindow
+
+
+# from  StudentWindow import StudentWindow
 
 class SignUp_GUI:
 
@@ -129,10 +131,9 @@ class SignUp_GUI:
         tkinter.mainloop()
 
     def getInfoFromDBSignUp(self):
-        
 
         # connect to database
-        conn = sqlite3.connect("test.db")
+        conn = sqlite3.connect("KSU.db")
         ForTast = conn.execute("SELECT ID ,password FROM user_info")
         IDdec = {}
         for row in ForTast:
@@ -181,7 +182,7 @@ class SignUp_GUI:
     def getInfoFromDBLogIn(self):
 
         # connect to database
-        conn = sqlite3.connect("test.db")
+        conn = sqlite3.connect("KSU.db")
         ForTast = conn.execute("SELECT ID ,password FROM user_info")
         IDdec = {}
         for row in ForTast:
@@ -193,7 +194,6 @@ class SignUp_GUI:
 
         # encrypt the password
         hashpass = hashlib.sha256(Pass.encode()).hexdigest()
-        id=int(idDB)
 
         # check the validation of entries
         if not idDB or not Pass:
@@ -215,7 +215,7 @@ class SignUp_GUI:
                     else:
                         messagebox.showinfo("Welcome", "Welcome student")
                         self.logIn_window.destroy()
-                        from  StudentWindow import StudentWindow
+                        from StudentWindow import StudentWindow
                         StudentWindow(idDB)
 
         elif not ((Pass.isdigit() and Pass.isalpha() and Pass.isalnum())) or len(Pass) < 6:
